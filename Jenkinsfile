@@ -20,7 +20,7 @@ pipeline {
             steps {
                 withNPM(npmrcConfig: 'e9d7a98e-f30a-440d-8a52-743c4ce7d9e5') {
                     sh 'yarn install'
-                    sh 'yarn npm publish --access public'
+                    sh 'yarn publish --access public'
                 }
             }
         }

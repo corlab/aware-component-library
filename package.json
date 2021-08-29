@@ -1,6 +1,6 @@
 {
   "name": "@corlab/aware-component-library",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "main": "build/index.js",
   "module": "build/index.esm.js",
   "files": [
@@ -18,7 +18,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ybroeker/aware-component-library.git"
+    "url": "git+https://github.com/corlab/aware-component-library.git"
   },
   "keywords": [
     "React",
@@ -28,9 +28,9 @@
   ],
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ybroeker/aware-component-library/issues"
+    "url": "https://github.com/corlab/aware-component-library/issues"
   },
-  "homepage": "https://github.com/ybroeker/aware-component-library#readme",
+  "homepage": "https://github.com/corlab/aware-component-library#readme",
   "peerDependencies": {
     "react": ">=16.8.0",
     "react-dom": ">=16.8.0",
