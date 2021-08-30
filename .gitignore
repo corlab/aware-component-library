@@ -1,3 +1,6 @@
 node_modules/
 build/
 storybook-static/
+.idea/*
+yarn-error.log
+corlab-aware-component-library-*.tgz
