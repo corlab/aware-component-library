@@ -34,7 +34,7 @@ class BpmnView extends React.Component<BpmnViewProps, BpmnViewState> {
     };
 
     render() {
-        return <div style={{width: "70vw", height: "70vh"}} id={this.generateId}/>;
+        return <div style={{width: "70vw", height: "70vh"}} id={this.generateId} />;
     }
 
     componentDidMount = () => {

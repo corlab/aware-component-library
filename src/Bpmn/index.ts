@@ -1,1 +1,1 @@
-export * from "./BpmnView"
+export * from "./BpmnView";

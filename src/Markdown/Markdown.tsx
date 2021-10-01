@@ -11,7 +11,6 @@ const styles = (theme: Theme) => ({
     },
 });
 
-
 const options = {
     overrides: {
         h1: {
@@ -30,15 +29,16 @@ const options = {
         p: {component: Typography, props: {paragraph: true}},
         a: {component: Link},
         li: {
-            component: withStyles(styles)(({classes, ...props}: {classes: Record<keyof ReturnType<typeof styles>, string>}) => (
-                <li className={classes.listItem}>
-                    <Typography component="span" {...props} />
-                </li>
-            )),
+            component: withStyles(styles)(
+                ({classes, ...props}: {classes: Record<keyof ReturnType<typeof styles>, string>}) => (
+                    <li className={classes.listItem}>
+                        <Typography component="span" {...props} />
+                    </li>
+                )
+            ),
         },
     },
 };
-
 
 export const Markdown = ({children, ...props}: MarkdownProps) => {
     return (
