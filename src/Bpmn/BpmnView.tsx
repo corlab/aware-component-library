@@ -16,9 +16,7 @@ export type BpmnViewProps = {
     taskId?: string;
 };
 
-type BpmnViewState = {
-    diagramXML?: string | null;
-};
+type BpmnViewState = {};
 
 const CURRENT_TASK_CLASS = "current-task";
 
@@ -32,12 +30,7 @@ class BpmnView extends React.Component<BpmnViewProps, BpmnViewState> {
         super(props);
         this.viewer = new BpmnViewer();
         this.generateId = "bpmnContainer" + Date.now();
-        this.state = {diagramXML: props.diagramXML};
     }
-
-    initDiagramXml = () => {
-        this.setState({diagramXML: this.props.diagramXML});
-    };
 
     render() {
         return <div style={{width: "70vw", height: "70vh"}} id={this.generateId} />;
@@ -45,18 +38,14 @@ class BpmnView extends React.Component<BpmnViewProps, BpmnViewState> {
 
     componentDidMount = () => {
         this.viewer.attachTo("#" + this.generateId);
-        if (this.state.diagramXML) {
-            this.importXML(this.state.diagramXML!, this.viewer);
+        if (this.props.diagramXML) {
+            this.importXML(this.props.diagramXML!, this.viewer);
         }
     };
 
     componentDidUpdate(prevProps: BpmnViewProps, prevState: any) {
-        if (this.props.diagramXML !== prevProps.diagramXML) {
-            this.initDiagramXml();
-        }
-
-        const diagramXml = this.state.diagramXML;
-        if (diagramXml && diagramXml !== prevState.diagramXML) {
+        const diagramXml = this.props.diagramXML;
+        if (diagramXml !== prevState.diagramXML) {
             this.importXML(diagramXml, this.viewer);
         }
 
@@ -93,6 +82,10 @@ class BpmnView extends React.Component<BpmnViewProps, BpmnViewState> {
 
     importXML = async (xml: string, viewer: BpmnViewer) => {
         try {
+            if (!xml) {
+                viewer.clear();
+                return;
+            }
             const result = await viewer.importXML(xml);
             const canvas = viewer.get("canvas");
             canvas.zoom("fit-viewport");
