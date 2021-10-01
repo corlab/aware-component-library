@@ -1,5 +1,5 @@
 pipeline {
-    agent { label 'nodejs10' }
+    agent { label 'nodejs12' }
     options {
         timeout(time: 1, unit: 'HOURS')
         timestamps()
