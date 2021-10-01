@@ -1,72 +1,77 @@
 {
-  "name": "@corlab/aware-component-library",
-  "version": "0.2.0",
-  "main": "lib/index.js",
-  "module": "lib/",
-  "files": [
-    "lib"
-  ],
-  "types": "lib/index.d.ts",
-  "description": "",
-  "scripts": {
-    "build": "rollup -c",
-    "test": "jest",
-    "test:watch": "jest --watch",
-    "storybook": "start-storybook -p 6006",
-    "storybook:export": "build-storybook",
-    "prepack": "yarn run build"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/corlab/aware-component-library.git"
-  },
-  "keywords": [
-    "React",
-    "Component",
-    "Library",
-    "Typescript"
-  ],
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/corlab/aware-component-library/issues"
-  },
-  "homepage": "https://github.com/corlab/aware-component-library#readme",
-  "peerDependencies": {
-    "@material-ui/core": ">=^4.0.0",
-    "react": ">=16.8.0",
-    "react-dom": ">=16.8.0"
-  },
-  "dependencies": {
-    "bpmn-js": "^8.7.3",
-    "markdown-to-jsx": "^7.1.3"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.12.10",
-    "@material-ui/core": "^4.11.0",
-    "@rollup/plugin-commonjs": "^17.0.0",
-    "@rollup/plugin-node-resolve": "^11.0.1",
-    "@storybook/addon-knobs": "6.3.1",
-    "@storybook/react": "^6.1.12",
-    "@testing-library/jest-dom": "^5.5.0",
-    "@testing-library/react": "^11.2.3",
-    "@types/jest": "^24.0.24",
-    "@types/react": "^16.9.12",
-    "@types/react-dom": "^16.9.8",
-    "babel-loader": "^8.1.0",
-    "babel-preset-react-app": "^10.0.0",
-    "identity-obj-proxy": "^3.0.0",
-    "jest": "^26.6.3",
-    "node-sass": "^6.0.1",
-    "postcss": "8.3.8",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "rollup": "^2.58.0",
-    "rollup-plugin-peer-deps-external": "^2.2.4",
-    "rollup-plugin-postcss": "4.0.1",
-    "rollup-plugin-rename": "1.0.1",
-    "rollup-plugin-typescript2": "^0.30.0",
-    "sass-loader": "^12.1.0",
-    "ts-jest": "^27.0.5",
-    "typescript": "^4.4.3"
-  }
+    "name": "@corlab/aware-component-library",
+    "version": "0.2.0",
+    "main": "lib/index.js",
+    "module": "lib/",
+    "files": [
+        "lib"
+    ],
+    "types": "lib/index.d.ts",
+    "description": "",
+    "scripts": {
+        "build": "rollup -c",
+        "test": "jest",
+        "test:watch": "jest --watch",
+        "storybook": "start-storybook -p 6006",
+        "storybook:export": "build-storybook",
+        "prepack": "yarn run build",
+        "prepare": "husky install",
+        "pre-commit": "pretty-quick --staged"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/corlab/aware-component-library.git"
+    },
+    "keywords": [
+        "React",
+        "Component",
+        "Library",
+        "Typescript"
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/corlab/aware-component-library/issues"
+    },
+    "homepage": "https://github.com/corlab/aware-component-library#readme",
+    "peerDependencies": {
+        "@material-ui/core": ">=^4.0.0",
+        "react": ">=16.8.0",
+        "react-dom": ">=16.8.0"
+    },
+    "dependencies": {
+        "bpmn-js": "^8.7.3",
+        "markdown-to-jsx": "^7.1.3"
+    },
+    "devDependencies": {
+        "@babel/core": "^7.12.10",
+        "@material-ui/core": "^4.11.0",
+        "@rollup/plugin-commonjs": "^17.0.0",
+        "@rollup/plugin-node-resolve": "^11.0.1",
+        "@storybook/addon-knobs": "6.3.1",
+        "@storybook/react": "^6.1.12",
+        "@testing-library/jest-dom": "^5.5.0",
+        "@testing-library/react": "^11.2.3",
+        "@types/jest": "^24.0.24",
+        "@types/react": "^16.9.12",
+        "@types/react-dom": "^16.9.8",
+        "babel-loader": "^8.1.0",
+        "babel-preset-react-app": "^10.0.0",
+        "husky": "7.0.2",
+        "identity-obj-proxy": "^3.0.0",
+        "jest": "^26.6.3",
+        "node-sass": "^6.0.1",
+        "postcss": "8.3.8",
+        "prettier": "2.4.1",
+        "pretty-quick": "3.1.1",
+        "react": "^16.13.1",
+        "react-dom": "^16.13.1",
+        "rollup": "^2.58.0",
+        "rollup-plugin-peer-deps-external": "^2.2.4",
+        "rollup-plugin-postcss": "4.0.1",
+        "rollup-plugin-rename": "1.0.1",
+        "rollup-plugin-typescript2": "^0.30.0",
+        "sass-loader": "^12.1.0",
+        "ts-jest": "^27.0.5",
+        "typescript": "^4.4.3"
+    }
 }
