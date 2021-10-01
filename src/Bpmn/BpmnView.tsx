@@ -3,10 +3,16 @@ import BpmnViewer from "bpmn-js";
 
 import "./bpmn.css";
 
+type SelectedActivity = {
+    id: string;
+    type: string;
+    name?: string;
+};
+
 export type BpmnViewProps = {
     diagramXML?: string;
     //modelerProps?: any;
-
+    onClick?: (element: SelectedActivity) => void;
     taskId?: string;
 };
 
@@ -71,6 +77,20 @@ class BpmnView extends React.Component<BpmnViewProps, BpmnViewState> {
         }
     }
 
+    onSelectActivity = (element: any) => {
+        const businessObject = element.businessObject;
+
+        const clickedElement = {
+            id: businessObject.id,
+            name: businessObject.name,
+            type: businessObject.$type,
+        };
+
+        if (this.props.onClick) {
+            this.props.onClick(clickedElement);
+        }
+    };
+
     importXML = async (xml: string, viewer: BpmnViewer) => {
         try {
             const result = await viewer.importXML(xml);
@@ -78,6 +98,11 @@ class BpmnView extends React.Component<BpmnViewProps, BpmnViewState> {
             canvas.zoom("fit-viewport");
 
             this.highlightTask(viewer, undefined, this.props.taskId);
+
+            const eventBus = viewer.get("eventBus");
+            eventBus.on("element.click", (e: any) => {
+                this.onSelectActivity(e.element);
+            });
 
             const {warnings} = result;
             if (warnings) {

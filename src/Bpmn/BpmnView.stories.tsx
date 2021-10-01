@@ -2,6 +2,7 @@ import React from "react";
 import {BpmnView} from "./BpmnView";
 import {storiesOf} from "@storybook/react";
 import {select} from "@storybook/addon-knobs";
+import {action} from "@storybook/addon-actions";
 
 import bpmn from "!!raw-loader!./example.bpmn";
 
@@ -21,6 +22,7 @@ storiesOf("BpmnView", module)
                 },
                 null
             )}
+            onClick={action("onClick")}
         />
     ))
     .add("Without Process", () => <BpmnView diagramXML={null} />);
