@@ -99,10 +99,10 @@ class BpmnView extends React.Component<BpmnViewProps, BpmnViewState> {
 
             const {warnings} = result;
             if (warnings) {
-                console.log(warnings);
+                console.warn(warnings);
             }
         } catch (err) {
-            console.log(err.message, err.warnings);
+            console.error(err.message, err.warnings);
         }
     };
 }
