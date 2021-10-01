@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn2:definitions xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:bpmn2="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" xmlns:bioc="http://bpmn.io/schema/bpmn/biocolor/1.0" xmlns:aware="http://aware" targetNamespace="http://bpmn.io/schema/bpmn" exporter="Camunda Modeler" exporterVersion="3.7.3" xsi:schemaLocation="http://www.omg.org/spec/BPMN/20100524/MODEL BPMN20.xsd">
+  <bpmn2:process id="Process" isExecutable="false">
+    <bpmn2:startEvent id="Event_0rxup3e" name="Start Event">
+      <bpmn2:outgoing>Flow_0jmte8a</bpmn2:outgoing>
+    </bpmn2:startEvent>
+    <bpmn2:sequenceFlow id="Flow_0jmte8a" sourceRef="Event_0rxup3e" targetRef="Activity_0cdaniw" />
+    <bpmn2:userTask id="Activity_0cdaniw" name="User Task" aware:taskType="default">
+      <bpmn2:incoming>Flow_0jmte8a</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_14jv6qi</bpmn2:outgoing>
+    </bpmn2:userTask>
+    <bpmn2:sequenceFlow id="Flow_14jv6qi" sourceRef="Activity_0cdaniw" targetRef="Activity_00alg3y" />
+    <bpmn2:intermediateCatchEvent id="Event_1c92y6a" name="Timer">
+      <bpmn2:incoming>Flow_122dyzl</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_1tsje6f</bpmn2:outgoing>
+      <bpmn2:timerEventDefinition id="TimerEventDefinition_0abya5d">
+        <bpmn2:timeDuration xsi:type="bpmn2:tFormalExpression">PT5S</bpmn2:timeDuration>
+      </bpmn2:timerEventDefinition>
+    </bpmn2:intermediateCatchEvent>
+    <bpmn2:endEvent id="Event_0m2nftb" name="End Event">
+      <bpmn2:incoming>Flow_1tsje6f</bpmn2:incoming>
+    </bpmn2:endEvent>
+    <bpmn2:sequenceFlow id="Flow_1tsje6f" sourceRef="Event_1c92y6a" targetRef="Event_0m2nftb" />
+    <bpmn2:sequenceFlow id="Flow_122dyzl" sourceRef="Activity_00alg3y" targetRef="Event_1c92y6a" />
+    <bpmn2:userTask id="Activity_00alg3y" name="User Task 2">
+      <bpmn2:incoming>Flow_14jv6qi</bpmn2:incoming>
+      <bpmn2:outgoing>Flow_122dyzl</bpmn2:outgoing>
+    </bpmn2:userTask>
+  </bpmn2:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Process">
+      <bpmndi:BPMNEdge id="Flow_122dyzl_di" bpmnElement="Flow_122dyzl">
+        <di:waypoint x="510" y="120" />
+        <di:waypoint x="542" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_1tsje6f_di" bpmnElement="Flow_1tsje6f">
+        <di:waypoint x="578" y="120" />
+        <di:waypoint x="612" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_14jv6qi_di" bpmnElement="Flow_14jv6qi">
+        <di:waypoint x="380" y="120" />
+        <di:waypoint x="410" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0jmte8a_di" bpmnElement="Flow_0jmte8a">
+        <di:waypoint x="228" y="120" />
+        <di:waypoint x="280" y="120" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="Event_0rxup3e_di" bpmnElement="Event_0rxup3e">
+        <dc:Bounds x="192" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="183" y="145" width="55" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0ig1mm4_di" bpmnElement="Activity_0cdaniw">
+        <dc:Bounds x="280" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0eamut6_di" bpmnElement="Event_1c92y6a">
+        <dc:Bounds x="542" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="546" y="145" width="28" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_0m2nftb_di" bpmnElement="Event_0m2nftb">
+        <dc:Bounds x="612" y="102" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="605" y="145" width="51" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_07aohjn_di" bpmnElement="Activity_00alg3y" bioc:stroke="rgb(30, 136, 229)" bioc:fill="rgb(187, 222, 251)">
+        <dc:Bounds x="410" y="80" width="100" height="80" />
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn2:definitions>
