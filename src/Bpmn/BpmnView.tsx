@@ -2,17 +2,24 @@ import React from "react";
 import BpmnViewer from "bpmn-js";
 
 import "./bpmn.css";
+import {Shape} from "diagram-js/lib/model";
+import {getDocumentation} from "./bpmnUtil";
+import {InternalEvent} from "diagram-js/lib/core/EventBus";
 
 type SelectedActivity = {
     id: string;
     type: string;
     name?: string;
+    documentation?: string;
 };
+
+export type ActivityHandler = (element: SelectedActivity, event: InternalEvent) => void;
 
 export type BpmnViewProps = {
     diagramXML?: string;
-    //modelerProps?: any;
-    onClick?: (element: SelectedActivity) => void;
+
+    onClick?: ActivityHandler;
+    onHover?: ActivityHandler;
     taskId?: string;
 };
 
@@ -29,6 +36,13 @@ class BpmnView extends React.Component<BpmnViewProps, BpmnViewState> {
     constructor(props: Readonly<BpmnViewProps>) {
         super(props);
         this.viewer = new BpmnViewer();
+        const eventBus = this.viewer.get("eventBus");
+        eventBus.on("element.click", (e) => {
+            this.onSelectActivity(e.element, e);
+        });
+        eventBus.on("element.hover", (e) => {
+            this.onHoverActivity(e.element, e);
+        });
         this.generateId = "bpmnContainer" + Date.now();
     }
 
@@ -43,9 +57,9 @@ class BpmnView extends React.Component<BpmnViewProps, BpmnViewState> {
         }
     };
 
-    componentDidUpdate(prevProps: BpmnViewProps, prevState: any) {
+    componentDidUpdate(prevProps: BpmnViewProps, prevState: BpmnViewState) {
         const diagramXml = this.props.diagramXML;
-        if (diagramXml !== prevState.diagramXML) {
+        if (diagramXml !== prevProps.diagramXML) {
             this.importXML(diagramXml, this.viewer);
         }
 
@@ -66,18 +80,31 @@ class BpmnView extends React.Component<BpmnViewProps, BpmnViewState> {
         }
     }
 
-    onSelectActivity = (element: any) => {
+    onSelectActivity = (element: Shape, event: InternalEvent) => {
+        if (!this.props.onClick) {
+            return;
+        }
+        this.onActivity(this.props.onClick, element, event);
+    };
+
+    onHoverActivity = (element: Shape, event: InternalEvent) => {
+        if (!this.props.onHover) {
+            return;
+        }
+        this.onActivity(this.props.onHover, element, event);
+    };
+
+    onActivity = (eventHandler: ActivityHandler, element: Shape, event: InternalEvent) => {
         const businessObject = element.businessObject;
 
         const clickedElement = {
             id: businessObject.id,
             name: businessObject.name,
             type: businessObject.$type,
+            documentation: getDocumentation(businessObject),
         };
 
-        if (this.props.onClick) {
-            this.props.onClick(clickedElement);
-        }
+        eventHandler(clickedElement, event);
     };
 
     importXML = async (xml: string, viewer: BpmnViewer) => {
@@ -91,11 +118,6 @@ class BpmnView extends React.Component<BpmnViewProps, BpmnViewState> {
             canvas.zoom("fit-viewport");
 
             this.highlightTask(viewer, undefined, this.props.taskId);
-
-            const eventBus = viewer.get("eventBus");
-            eventBus.on("element.click", (e: any) => {
-                this.onSelectActivity(e.element);
-            });
 
             const {warnings} = result;
             if (warnings) {

@@ -34,6 +34,7 @@ storiesOf("BpmnView", module)
                 null
             )}
             onClick={action("onClick")}
+            onHover={action("onHover")}
         />
     ))
     .add("Without Process", () => <BpmnView diagramXML={null} />)

@@ -6,11 +6,13 @@
     </bpmn2:startEvent>
     <bpmn2:sequenceFlow id="Flow_0jmte8a" sourceRef="Event_0rxup3e" targetRef="Activity_0cdaniw" />
     <bpmn2:userTask id="Activity_0cdaniw" name="User Task" aware:taskType="default">
+      <bpmn2:documentation>Some User Task</bpmn2:documentation>
       <bpmn2:incoming>Flow_0jmte8a</bpmn2:incoming>
       <bpmn2:outgoing>Flow_14jv6qi</bpmn2:outgoing>
     </bpmn2:userTask>
     <bpmn2:sequenceFlow id="Flow_14jv6qi" sourceRef="Activity_0cdaniw" targetRef="Activity_00alg3y" />
     <bpmn2:intermediateCatchEvent id="Event_1c92y6a" name="Timer">
+      <bpmn2:documentation>A Timer</bpmn2:documentation>
       <bpmn2:incoming>Flow_122dyzl</bpmn2:incoming>
       <bpmn2:outgoing>Flow_1tsje6f</bpmn2:outgoing>
       <bpmn2:timerEventDefinition id="TimerEventDefinition_0abya5d">
