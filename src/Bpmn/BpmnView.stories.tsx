@@ -43,7 +43,7 @@ storiesOf("BpmnView", module)
         <BpmnView
             diagramXML={nullsafe(decode)(
                 select(
-                    "Current Task",
+                    "Current Process",
                     {
                         "-": null,
                         "Invalid Process": nullsafe(encode)("Foo Bar"),

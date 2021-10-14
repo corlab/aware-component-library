@@ -1,5 +1,5 @@
-import React from "react";
-import BpmnViewer from "bpmn-js";
+import React, {useEffect, useMemo, useRef} from "react";
+import Viewer from "bpmn-js";
 
 import "./bpmn.css";
 import {Shape} from "diagram-js/lib/model";
@@ -23,78 +23,39 @@ export type BpmnViewProps = {
     taskId?: string;
 };
 
-type BpmnViewState = {};
-
 const CURRENT_TASK_CLASS = "current-task";
 
-class BpmnView extends React.Component<BpmnViewProps, BpmnViewState> {
-    viewer: BpmnViewer;
-    generateId: string;
-
-    state: BpmnViewState = {};
-
-    constructor(props: Readonly<BpmnViewProps>) {
-        super(props);
-        this.viewer = new BpmnViewer();
-        const eventBus = this.viewer.get("eventBus");
+const BpmnView = ({diagramXML, onClick, onHover, taskId}: BpmnViewProps) => {
+    const generatedId = useMemo(() => "bpmnContainer" + Date.now(), []);
+    const viewer = useMemo<Viewer>(() => {
+        const viewer = new Viewer();
+        const eventBus = viewer.get("eventBus");
         eventBus.on("element.click", (e) => {
-            this.onSelectActivity(e.element, e);
+            onSelectActivity(e.element, e);
         });
         eventBus.on("element.hover", (e) => {
-            this.onHoverActivity(e.element, e);
+            onHoverActivity(e.element, e);
         });
-        this.generateId = "bpmnContainer" + Date.now();
-    }
+        return viewer;
+    }, []);
 
-    render() {
-        return <div style={{width: "70vw", height: "70vh"}} id={this.generateId} />;
-    }
+    const highlightedTask = useRef<string | null>(null);
 
-    componentDidMount = () => {
-        this.viewer.attachTo("#" + this.generateId);
-        if (this.props.diagramXML) {
-            this.importXML(this.props.diagramXML!, this.viewer);
-        }
-    };
-
-    componentDidUpdate(prevProps: BpmnViewProps, prevState: BpmnViewState) {
-        const diagramXml = this.props.diagramXML;
-        if (diagramXml !== prevProps.diagramXML) {
-            this.importXML(diagramXml, this.viewer);
-        }
-
-        if (prevProps.taskId !== this.props.taskId) {
-            this.highlightTask(this.viewer, prevProps.taskId, this.props.taskId);
-        }
-    }
-
-    highlightTask(viewer: BpmnViewer, prevTask?: string, currentTask?: string) {
-        console.log("highlightTask", prevTask, currentTask);
-        const canvas = viewer.get("canvas");
-
-        if (prevTask) {
-            canvas.removeMarker(prevTask, CURRENT_TASK_CLASS);
-        }
-        if (currentTask) {
-            canvas.addMarker(currentTask, CURRENT_TASK_CLASS);
-        }
-    }
-
-    onSelectActivity = (element: Shape, event: InternalEvent) => {
-        if (!this.props.onClick) {
+    const onSelectActivity = (element: Shape, event: InternalEvent) => {
+        if (!onClick) {
             return;
         }
-        this.onActivity(this.props.onClick, element, event);
+        onActivity(onClick, element, event);
     };
 
-    onHoverActivity = (element: Shape, event: InternalEvent) => {
-        if (!this.props.onHover) {
+    const onHoverActivity = (element: Shape, event: InternalEvent) => {
+        if (!onHover) {
             return;
         }
-        this.onActivity(this.props.onHover, element, event);
+        onActivity(onHover, element, event);
     };
 
-    onActivity = (eventHandler: ActivityHandler, element: Shape, event: InternalEvent) => {
+    const onActivity = (eventHandler: ActivityHandler, element: Shape, event: InternalEvent) => {
         const businessObject = element.businessObject;
 
         const clickedElement = {
@@ -107,26 +68,64 @@ class BpmnView extends React.Component<BpmnViewProps, BpmnViewState> {
         eventHandler(clickedElement, event);
     };
 
-    importXML = async (xml: string, viewer: BpmnViewer) => {
-        try {
-            if (!xml) {
-                viewer.clear();
-                return;
-            }
-            const result = await viewer.importXML(xml);
-            const canvas = viewer.get("canvas");
-            canvas.zoom("fit-viewport");
+    const highlightTask = (viewer: Viewer, prevTask?: string, currentTask?: string) => {
+        const canvas = viewer.get("canvas");
 
-            this.highlightTask(viewer, undefined, this.props.taskId);
-
-            const {warnings} = result;
-            if (warnings) {
-                console.warn(warnings);
+        if (prevTask) {
+            const prev = viewer.get("elementRegistry").get(prevTask);
+            if (prev) {
+                canvas.removeMarker(prev, CURRENT_TASK_CLASS);
             }
-        } catch (err) {
-            console.error(err.message, err.warnings);
+        }
+        if (currentTask) {
+            const current = viewer.get("elementRegistry").get(currentTask);
+            if (current) {
+                canvas.addMarker(current, CURRENT_TASK_CLASS);
+            }
         }
     };
-}
+
+    const importXML = (xml: string, viewer: Viewer) => {
+        if (!xml) {
+            viewer.clear();
+            return;
+        }
+
+        viewer.importXML(xml).then(
+            (result) => {
+                const canvas = viewer.get("canvas");
+                canvas.zoom("fit-viewport");
+
+                highlightTask(viewer, undefined, taskId);
+
+                const {warnings} = result;
+                if (warnings) {
+                    console.warn(warnings);
+                }
+            },
+            (err) => {
+                console.error(err.message, err.warnings);
+            }
+        );
+    };
+
+    useEffect(() => {
+        viewer.attachTo("#" + generatedId);
+        if (diagramXML) {
+            importXML(diagramXML!, viewer);
+        }
+    }, []);
+
+    useEffect(() => {
+        importXML(diagramXML!, viewer);
+    }, [diagramXML]);
+
+    useEffect(() => {
+        highlightTask(viewer, highlightedTask.current, taskId);
+        highlightedTask.current = taskId;
+    }, [taskId]);
+
+    return <div style={{width: "70vw", height: "70vh"}} id={generatedId} />;
+};
 
 export {BpmnView};

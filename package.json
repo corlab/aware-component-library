@@ -16,7 +16,8 @@
         "storybook:export": "build-storybook",
         "prepack": "yarn run build",
         "prepare": "husky install",
-        "pre-commit": "pretty-quick --staged"
+        "pre-commit": "pretty-quick --staged",
+        "clean": "rimraf lib"
     },
     "repository": {
         "type": "git",
@@ -36,12 +37,11 @@
     "peerDependencies": {
         "@material-ui/core": ">=^4.0.0",
         "react": ">=16.8.0",
-        "react-dom": ">=16.8.0"
-    },
-    "dependencies": {
+        "react-dom": ">=16.8.0",
         "bpmn-js": "^8.7.3",
         "markdown-to-jsx": "^7.1.3"
     },
+    "dependencies": {},
     "devDependencies": {
         "@babel/core": "^7.12.10",
         "@material-ui/core": "^4.11.0",
@@ -68,6 +68,7 @@
         "pretty-quick": "3.1.1",
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
+        "rimraf": "3.0.2",
         "rollup": "^2.58.0",
         "rollup-plugin-peer-deps-external": "^2.2.4",
         "rollup-plugin-postcss": "4.0.1",
