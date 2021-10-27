@@ -1,3 +1,7 @@
+import {CssBaseline, StyledEngineProvider, ThemeProvider} from "@mui/material";
+import {createTheme} from "@mui/material/styles";
+
+const theme = createTheme();
 /**
  * Read https://storybook.js.org/docs/react/configure/overview#configure-story-rendering
  * for more information about the purpose of this file.
@@ -23,6 +27,17 @@
  *
  * Each story throughout the library will be wrapped in a div with a margin of 3
  */
+
+export const decorators = [
+    (Story) => (
+        <StyledEngineProvider injectFirst>
+            <ThemeProvider theme={theme}>
+                <CssBaseline />
+                <Story />
+            </ThemeProvider>
+        </StyledEngineProvider>
+    ),
+];
 
 /**
  * Parameters

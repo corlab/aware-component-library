@@ -1,9 +1,10 @@
 import React from "react";
 import ReactMarkdown from "markdown-to-jsx";
-import {Theme, withStyles} from "@material-ui/core/styles";
-import Typography from "@material-ui/core/Typography";
-import Link from "@material-ui/core/Link";
+import {withStyles} from "@mui/styles";
+import Typography from "@mui/material/Typography";
+import Link from "@mui/material/Link";
 import {MarkdownProps} from "./Markdown.types";
+import {Theme} from "@mui/material";
 
 const styles = (theme: Theme) => ({
     listItem: {

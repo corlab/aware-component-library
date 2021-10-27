@@ -23,6 +23,14 @@ pipeline {
                 }
             }
         }
+        stage('Storybook') {
+            steps {
+                script {
+                    sh 'yarn run build-storybook'
+                    publishHTML([allowMissing: false, alwaysLinkToLastBuild: false, keepAll: false, reportDir: 'storybook-static', reportFiles: 'index.html', reportName: 'Storybook', reportTitles: ''])
+                }
+            }
+        }
 
     }
     post {
