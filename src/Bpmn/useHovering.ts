@@ -39,8 +39,6 @@ export const useHovering = (): [HoverState, ActivityHandler] => {
                     height: 20,
                 };
 
-                console.log("useHovering", {boundingClientRect});
-
                 const getBoundingClientRect = () => boundingClientRect as ClientRect;
                 const anchorEl = {
                     clientWidth: getBoundingClientRect().width,
