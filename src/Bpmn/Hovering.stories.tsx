@@ -18,8 +18,6 @@ type HoveringProps = {
 const Hovering = ({diagramXML, onClick, taskId, showEmpty}: HoveringProps) => {
     const [hovered, onHover] = useHovering();
 
-    console.log(hovered?.anchorEl?.getBoundingClientRect?.());
-
     return (
         <div>
             <BpmnView diagramXML={diagramXML} onHover={onHover} onClick={onClick} taskId={taskId} />
