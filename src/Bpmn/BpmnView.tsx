@@ -6,7 +6,7 @@ import {Shape} from "diagram-js/lib/model";
 import {getDocumentation} from "./bpmnUtil";
 import {InternalEvent} from "diagram-js/lib/core/EventBus";
 
-type SelectedActivity = {
+export type SelectedActivity = {
     id: string;
     type: string;
     name?: string;
