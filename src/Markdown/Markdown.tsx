@@ -1,16 +1,8 @@
 import React from "react";
 import ReactMarkdown from "markdown-to-jsx";
-import {withStyles} from "@mui/styles";
 import Typography from "@mui/material/Typography";
 import Link from "@mui/material/Link";
 import {MarkdownProps} from "./Markdown.types";
-import {Theme} from "@mui/material";
-
-const styles = (theme: Theme) => ({
-    listItem: {
-        marginTop: theme.spacing(1),
-    },
-});
 
 const options = {
     overrides: {
@@ -30,12 +22,10 @@ const options = {
         p: {component: Typography, props: {paragraph: true}},
         a: {component: Link},
         li: {
-            component: withStyles(styles)(
-                ({classes, ...props}: {classes: Record<keyof ReturnType<typeof styles>, string>}) => (
-                    <li className={classes.listItem}>
-                        <Typography component="span" {...props} />
-                    </li>
-                )
+            component: ({...props}) => (
+                <li style={{marginTop: 1}}>
+                    <Typography component="span" {...props} />
+                </li>
             ),
         },
     },
