@@ -28,6 +28,9 @@ const options = {
                 </li>
             ),
         },
+        img: {
+            component: ({...props}) => <img style={{width: "100%"}} alt={props.alt ? props.alt : "image"} {...props} />,
+        },
     },
 };
 
