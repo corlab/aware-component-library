@@ -16,13 +16,18 @@ type HoverState = {
     anchorEl: AnchorElement;
     name: string;
     documentation: string;
+    processId: string;
 } | null;
 
 export const useHovering = (): [HoverState, ActivityHandler] => {
     const [hovered, setHovered] = useState<HoverState>(null);
 
     const onHover = (element: SelectedActivity, event: InternalEvent) => {
-        if (element.type === "bpmn:UserTask" || element.type === "bpmn:IntermediateCatchEvent") {
+        if (
+            element.type === "bpmn:UserTask" ||
+            element.type === "bpmn:IntermediateCatchEvent" ||
+            element.type === "bpmn:CallActivity"
+        ) {
             const x = event.originalEvent.x;
             const y = event.originalEvent.y;
             const id = element.id;
@@ -53,6 +58,7 @@ export const useHovering = (): [HoverState, ActivityHandler] => {
                     anchorEl: anchorEl,
                     name: element.name,
                     documentation: element.documentation,
+                    processId: element.processId,
                 });
             }
         } else {

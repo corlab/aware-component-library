@@ -10,6 +10,7 @@ export type SelectedActivity = {
     id: string;
     type: string;
     name?: string;
+    processId?: string;
     documentation?: string;
 };
 
@@ -57,11 +58,13 @@ const BpmnView = ({diagramXML, onClick, onHover, taskId}: BpmnViewProps) => {
 
     const onActivity = (eventHandler: ActivityHandler, element: Shape, event: InternalEvent) => {
         const businessObject = element.businessObject;
+        const elementId = element.id;
 
         const clickedElement = {
             id: businessObject.id,
             name: businessObject.name,
             type: businessObject.$type,
+            processId: elementId,
             documentation: getDocumentation(businessObject),
         };
 
