@@ -2,3 +2,7 @@
     stroke: red !important;
     stroke-width: 4px !important;
 }
+
+.call-activity:not(.djs-connection) .djs-visual > :nth-child(1) {
+    cursor: pointer;
+}
