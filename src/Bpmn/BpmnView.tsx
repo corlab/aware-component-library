@@ -5,6 +5,7 @@ import "./bpmn.css";
 import {Shape} from "diagram-js/lib/model";
 import {getDocumentation} from "./bpmnUtil";
 import {InternalEvent} from "diagram-js/lib/core/EventBus";
+import Canvas from "diagram-js/lib/core/Canvas";
 
 export type SelectedActivity = {
     id: string;
@@ -22,11 +23,13 @@ export type BpmnViewProps = {
     onClick?: ActivityHandler;
     onHover?: ActivityHandler;
     taskId?: string;
+    drillDown?: boolean;
 };
 
 const CURRENT_TASK_CLASS = "current-task";
+const CALL_ACTIVITY_CLASS = "call-activity";
 
-const BpmnView = ({diagramXML, onClick, onHover, taskId}: BpmnViewProps) => {
+const BpmnView = ({diagramXML, onClick, onHover, taskId, drillDown}: BpmnViewProps) => {
     const generatedId = useMemo(() => "bpmnContainer" + Date.now(), []);
     const viewer = useMemo<Viewer>(() => {
         const viewer = new Viewer();
@@ -88,6 +91,15 @@ const BpmnView = ({diagramXML, onClick, onHover, taskId}: BpmnViewProps) => {
         }
     };
 
+    const markCallActivity = (viewer: Viewer, canvas: Canvas) => {
+        viewer
+            .get("elementRegistry")
+            .filter((element) => element.type === "bpmn:CallActivity")
+            .map((element) => {
+                canvas.addMarker(element, CALL_ACTIVITY_CLASS);
+            });
+    };
+
     const importXML = (xml: string, viewer: Viewer) => {
         if (!xml) {
             viewer.clear();
@@ -100,7 +112,9 @@ const BpmnView = ({diagramXML, onClick, onHover, taskId}: BpmnViewProps) => {
                 canvas.zoom("fit-viewport");
 
                 highlightTask(viewer, undefined, taskId);
-
+                if (drillDown) {
+                    markCallActivity(viewer, canvas);
+                }
                 const {warnings} = result;
                 if (warnings) {
                     console.warn(warnings);
